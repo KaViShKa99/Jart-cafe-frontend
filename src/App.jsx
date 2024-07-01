@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./components/pages/Home";
 import SelectedProduct from "./components/pages/SelectedProduct";
 import Cart from "./components/pages/Cart";
-import { Admin } from "./components/pages/Admin";
+import { Admin } from "./components/pages/Admin1";
 import NewPasswordPage from "./components/pages/NewPasswordPage";
 import "rsuite/dist/rsuite.min.css";
 
