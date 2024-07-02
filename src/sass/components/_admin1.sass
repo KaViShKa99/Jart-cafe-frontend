@@ -6,6 +6,8 @@ $error-color: #dc3545
 $warning-color: #ffc107
 $dark-color: #343a40
 $light-color: #f8f9fa
+$remove-btn-color: #dc3545
+$remove-btn-hover-color: #c82333
 
 // Main styles
 .admin-container
@@ -43,8 +45,8 @@ $light-color: #f8f9fa
 
       textarea
         min-height: 100px
-
-      button[type="submit"]
+    
+      button[type="submit"],.add-btn
         background-color: $primary-color
         color: #fff
         border: none
@@ -52,6 +54,53 @@ $light-color: #f8f9fa
         border-radius: 4px
         cursor: pointer
         font-size: 16px
+        margin: 0 10px 0 10px
+
+      .cancel-btn
+        background-color: $error-color
+        color: #fff
+        border: none
+        padding: 10px 20px
+        border-radius: 4px
+        cursor: pointer
+        font-size: 16px
+
+      .remove-btn
+        background-color: $error-color
+        color: #fff
+        border: none
+        padding: 6px 12px
+        border-radius: 4px
+        cursor: pointer
+        font-size: 14px
+        margin: 0 10px 0 10px
+      
+      .added-images-container
+        display: flex
+        flex-wrap: wrap
+        gap: 10px
+        margin-top: 20px
+
+        .artwork-image
+            max-width: 100px
+            max-height: 100px
+            border-radius: 4px
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+
+        .remove-btn
+            display: inline-block
+            margin-top: 5px
+            padding: 5px 10px
+            background-color: $remove-btn-color
+            color: white
+            border: none
+            border-radius: 4px
+            cursor: pointer
+            font-size: 14px
+
+            &:hover
+                background-color: $remove-btn-hover-color
+
 
       .material-size-section
         margin-bottom: 10px
@@ -199,7 +248,7 @@ $light-color: #f8f9fa
                     object-fit: cover
                     margin-right: 10px
                     margin-bottom: 10px
-                    
+
             .preview-material-boxes
                 .prev-mat-boxes-container
                     ul

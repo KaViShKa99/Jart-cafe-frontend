@@ -117,27 +117,17 @@ export const Admin = () => {
     }
   };
 
-  const imageLinkAdd = () => {
+  const imageLinkAdd = (e) => {
+    e.preventDefault();
+    console.log(imageLinks);
     if (imageLinks.trim() !== "") {
       setImageLinks("");
       setImageUrl((prev) => [...prev, imageLinks]);
     }
   };
 
-  const handleImageLinksChange = (event) => {
-    console.log(event.target.value);
-    setImageLinks(event.target.value);
-  };
-
-  //   const handleRemoveImage = (id) => {
-  //     setImageUploadedPreview(
-  //       imageUploadedPreview.filter((image, index) => index !== id)
-  //     );
-  //   };
-
-  const handleRemoveImage = (index) => {
-    console.log(index);
-    console.log(imageUrl.filter((url, id) => id !== index));
+  const handleRemoveImage = (e, index) => {
+    e.preventDefault();
     setImageUrl(imageUrl.filter((url, id) => id !== index));
   };
 
@@ -171,10 +161,6 @@ export const Admin = () => {
       ...prevPreview,
       [field]: value,
     }));
-  };
-
-  const removeImage = (index) => {
-    setImages(images.filter((_, i) => i !== index));
   };
 
   const removeSize = (material, index) => {
@@ -229,15 +215,17 @@ export const Admin = () => {
       description: description,
       price: price,
       lastPrice: lastPrice,
-      images: imageUrls,
+      //mages: imageUrls,
+      images: imageUrl,
       materials: filteredMaterialsSizes,
     };
 
     try {
       if (isEditing) {
-        await axios.put(`${backendUrl}/update/${editingId}`, formData);
+        await axios.put(`${backendUrl}/artworks/update/${editingId}`, formData);
       } else {
         const response = await axios.post(`${backendUrl}/artworks`, formData);
+        console.log(response.data);
         setNewProductPreview(response.data); // Set preview for new product
       }
       fetchArtworks();
@@ -277,8 +265,9 @@ export const Admin = () => {
   };
 
   const handleDelete = async (id) => {
+    console.log(id);
     try {
-      await axios.delete(`${backendUrl}/delete/${id}`);
+      await axios.delete(`${backendUrl}/artworks/delete/${id}`);
       fetchArtworks();
     } catch (error) {
       console.error("Error deleting artwork:", error);
@@ -332,11 +321,6 @@ export const Admin = () => {
           />
 
           <label htmlFor="description">Description</label>
-          {/* <ReactQuill
-            id="description"
-            value={description}
-            onChange={handleDescriptionChange}
-          /> */}
 
           <JoditEditor
             value={description}
@@ -373,16 +357,6 @@ export const Admin = () => {
             onChange={handleFileChange}
           />
 
-          {/* <div> */}
-          {/* <h3>Uploaded Images</h3> */}
-          {/* {imageUploadedPreview.map((image, index) => (
-            <div key={image.id}>
-              <img src={image} alt={image.file} width="60" />
-              <button onClick={() => handleRemoveImage(index)}>Remove</button>
-            </div>
-          ))} */}
-          {/* </div> */}
-
           <label htmlFor="imageLinks">Image Links (One per line)</label>
           {/* <textarea
             id="imageLinks"
@@ -397,10 +371,11 @@ export const Admin = () => {
             value={imageLinks}
             onChange={(event) => setImageLinks(event.target.value)}
           />
-          <button onClick={() => imageLinkAdd()}>Add</button>
+          <button className="add-btn" onClick={imageLinkAdd}>
+            Add
+          </button>
 
-          <div>
-            {/* <h3>Image URLs</h3> */}
+          <div className="added-images-container">
             {imageUrl &&
               imageUrl.map((url, index) => (
                 <div key={index}>
@@ -409,9 +384,11 @@ export const Admin = () => {
                     src={url}
                     alt={`Artwork ${index}`}
                     className="artwork-image"
-                    width="60"
                   />
-                  <button onClick={() => handleRemoveImage(index)}>
+                  <button
+                    className="remove-btn"
+                    onClick={(e) => handleRemoveImage(e, index)}
+                  >
                     Remove
                   </button>
                 </div>
@@ -460,7 +437,7 @@ export const Admin = () => {
           <button type="submit">{isEditing ? "Update" : "Submit"}</button>
 
           {isEditing && (
-            <button type="button" onClick={() => resetForm()}>
+            <button className="cancel-btn" onClick={() => resetForm()}>
               Cancel
             </button>
           )}

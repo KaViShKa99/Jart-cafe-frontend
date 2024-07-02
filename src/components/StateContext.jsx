@@ -25,7 +25,7 @@ export const StateProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    console.log(cartArray);
+    // console.log(cartArray);
     const encryptedCart = CryptoJS.AES.encrypt(
       JSON.stringify(cartArray),
       "secretKey"
